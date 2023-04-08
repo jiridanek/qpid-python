@@ -23,6 +23,21 @@ from .packer import Packer
 from .datatypes import serial, timestamp, RangedSet, Struct, UUID
 from .ops import Compound, PRIMITIVE, COMPOUND
 
+try:
+  buffer
+except NameError:
+  buffer = memoryview
+
+try:
+  long
+except NameError:
+  long = int
+
+try:
+  unicode
+except NameError:
+  unicode = str
+
 class CodecException(Exception): pass
 
 def direct(t):
@@ -49,7 +64,7 @@ if not PY3:
     Compound: direct("struct32"),
 
     unicode: direct("str16"),
-    str: map_str,
+    bytes: map_str,
     buffer: direct("vbin32"),
     long: direct("int64"),
   }
