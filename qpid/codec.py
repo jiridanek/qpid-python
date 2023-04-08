@@ -34,6 +34,21 @@ from struct import *
 from .reference import ReferenceId
 from logging import getLogger
 
+try:
+  bytestring
+except:
+  bytestring = str
+
+try:
+  unicode
+except NameError:
+  unicode = str
+
+try:
+  long
+except NameError:
+  long = int
+
 log = getLogger("qpid.codec")
 
 class EOF(Exception):
