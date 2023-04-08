@@ -239,7 +239,7 @@ class Flatten(View):
     sources = [iter(self.source)]
     while sources:
       try:
-        nd = sources[-1].next()
+        nd = next(sources[-1])
         if isinstance(nd, Tree):
           sources.append(iter(nd.children))
         else:
