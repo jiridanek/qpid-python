@@ -255,8 +255,12 @@ def load_types_from_xml(file):
   return types
 
 def load_types(file):
+  """Generates protocol data classes from XML specs, uses pickle module to cache the results.
+
+  Reusing the generated pickle file across major Python versions is fraught with peril, and
+  there might be changes even across minor versions. Versioning the filename keeps us safe."""
   base, ext = os.path.splitext(file)
-  pclfile = "%s.pcl" % base
+  pclfile = "%s_py%d.%d.pcl" % (base, sys.version_info.major, sys.version_info.minor)
   if os.path.exists(pclfile) and \
         os.path.getmtime(pclfile) > os.path.getmtime(file):
     f = open(pclfile, "rb")
