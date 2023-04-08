@@ -188,7 +188,7 @@ class Connection(Endpoint):
         else:
             raise ConnectionError("Unknown connection option %s with value %s" %(key, value))
 
-    # Now handle items that need special treatment or have speical defaults:
+    # Now handle items that need special treatment or have special defaults:
     if self.host:
         url = default(url, self.host)
     if isinstance(url, (str, bytes, unicode)):
