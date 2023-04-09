@@ -22,9 +22,9 @@ import struct
 
 class Packer:
 
-  def read(self, n): abstract
+  def read(self, n): pass  # abstract
 
-  def write(self, s): abstract
+  def write(self, s): pass  # abstract
 
   def unpack(self, fmt):
     values = struct.unpack(fmt, self.read(struct.calcsize(fmt)))

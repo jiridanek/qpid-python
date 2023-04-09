@@ -341,9 +341,9 @@ class Frame:
     self.bof = True
     self.eof = True
 
-  def encode(self, enc): abstract
+  def encode(self, enc): pass  # abstract
 
-  def decode(spec, dec, size): abstract
+  def decode(spec, dec, size): pass  # abstract
 
 class Method(Frame):
 
