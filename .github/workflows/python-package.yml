@@ -145,4 +145,4 @@ jobs:
 
       - name: Qpid-☕ Broker tests with the 🛞 runner we ❤️
         run: |
-          ${{ env.pythonLocation }}/bin/python qpid-python-test -m qpid_tests
+          ${{ env.pythonLocation }}/bin/python qpid-python-test -m qpid_tests --broker amqp://guest/guest@localhost:5672
