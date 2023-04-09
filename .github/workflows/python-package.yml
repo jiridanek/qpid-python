@@ -143,6 +143,6 @@ jobs:
             sleep 3
           done
 
-      - name: Java Broker tests with the 🛞 runner we ❤️
+      - name: Qpid-☕ Broker tests with the 🛞 runner we ❤️
         run: |
           ${{ env.pythonLocation }}/bin/python qpid-python-test -m qpid_tests
