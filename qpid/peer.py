@@ -37,6 +37,12 @@ except ImportError:
 from time import time
 from .exceptions import Closed, Timeout, ContentError
 from logging import getLogger
+from qpid.py3compat import buffer, unicode
+
+try:
+  basestring
+except NameError:
+  basestring = str
 
 log = getLogger("qpid.peer")
 
@@ -270,10 +276,11 @@ class Channel:
     for child in content.children:
       self.write_content(klass, child)
     if content.body:
-      if not isinstance(content.body, (basestring, buffer)):
+      # todo: do we allow py3 str in here? original code says yes
+      if not isinstance(content.body, (bytes, str, unicode, buffer)):
         # The 0-8..0-91 client does not support the messages bodies apart from string/buffer - fail early
         # if other type
-        raise ContentError("Content body must be string or buffer, not a %s" % type(content.body))
+        raise ContentError("Content body must be bytes or buffer, not a %s" % type(content.body))
       frame_max = self.client.tune_params['frame_max'] - self.client.conn.AMQP_HEADER_SIZE
       for chunk in (content.body[i:i + frame_max] for i in range(0, len(content.body), frame_max)):
         self.write(Body(chunk))
