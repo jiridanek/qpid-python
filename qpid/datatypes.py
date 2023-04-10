@@ -69,6 +69,7 @@ class Struct:
 
 class Message:
 
+  # TODO: self.body has to be bytes, enforce it with assert? or cast?
   def __init__(self, *args):
     if args:
       self.body = args[-1]

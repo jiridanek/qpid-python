@@ -40,6 +40,7 @@ from qpid.messaging.message import *
 from qpid.ops import PRIMITIVE
 from qpid.util import default, URL
 from threading import Thread, RLock
+from qpid.py3compat import unicode
 
 log = getLogger("qpid.messaging")
 
@@ -190,7 +191,7 @@ class Connection(Endpoint):
     # Now handle items that need special treatment or have speical defaults:
     if self.host:
         url = default(url, self.host)
-    if isinstance(url, basestring):
+    if isinstance(url, (str, bytes, unicode)):
         url = URL(url)
     self.host = url.host
 

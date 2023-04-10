@@ -1,7 +1,6 @@
 # Python 3 compatibility helpers
 
 import inspect
-import sys
 
 PY2 = sys.version_info.major == 2
 PY3 = sys.version_info.major == 3
@@ -21,6 +20,10 @@ try:
 except NameError:
     unicode = str
 
+try:
+    basestring = basestring
+except NameError:
+    basestring = (bytes, str)
 
 def cmp(a, b):
     return (a > b) - (a < b)

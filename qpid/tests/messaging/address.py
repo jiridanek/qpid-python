@@ -25,6 +25,7 @@ from qpid.messaging.address import lex, parse, ParseError, EOF, ID, NUMBER, \
 from qpid.lexer import Token
 from qpid.harness import Skipped
 from qpid.tests.parser import ParserBase
+from qpid.py3compat import unicode
 
 def indent(st):
   return "  " + st.replace("\n", "\n  ")
@@ -38,7 +39,8 @@ def pprint(o):
     return pprint_map(o)
   elif isinstance(o, list):
     return pprint_list(o)
-  elif isinstance(o, basestring):
+  # todo should also accept unicode
+  elif isinstance(o, (bytes, str, unicode)):
     return pprint_string(o)
   else:
     return repr(o)
