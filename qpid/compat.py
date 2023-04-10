@@ -198,7 +198,7 @@ else:
       self.read_fd, self.write_fd = os.pipe()
 
     def _do_write(self):
-      os.write(self.write_fd, "\0")
+      os.write(self.write_fd, b"\0")
 
     def _do_read(self):
       os.read(self.read_fd, 65536)

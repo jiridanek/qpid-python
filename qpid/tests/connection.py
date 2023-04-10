@@ -159,14 +159,14 @@ class ConnectionTest(TestCase):
     echos = ssn.incoming("echo")
 
     for i in range(10):
-      ssn.message_transfer("echo", message=Message("test%d" % i))
+      ssn.message_transfer("echo", message=Message(b"test%d" % i))
 
     ssn.auto_sync=False
     ssn.message_transfer("abort")
 
     for i in range(10):
       m = echos.get(timeout=10)
-      assert m.body == "test%d" % i
+      assert m.body == b"test%d" % i
 
     try:
       m = echos.get(timeout=10)
@@ -193,7 +193,7 @@ class ConnectionTest(TestCase):
     echos.listen(listener, exc_listener)
 
     for i in range(10):
-      ssn.message_transfer("echo", message=Message("test%d" % i))
+      ssn.message_transfer("echo", message=Message(b"test%d" % i))
 
     ssn.auto_sync=False
     ssn.message_transfer("abort")
@@ -208,7 +208,7 @@ class ConnectionTest(TestCase):
 
     for i in range(10):
       m = messages.pop(0)
-      assert m.body == "test%d" % i
+      assert m.body == b"test%d" % i
 
     assert len(exceptions) == 1
 
@@ -217,7 +217,7 @@ class ConnectionTest(TestCase):
     c.start(10)
     s = c.session("test")
     s.auto_sync = False
-    s.message_transfer("echo", message=Message("test"))
+    s.message_transfer("echo", message=Message(b"test"))
     s.sync(10)
 
   def testHeartbeat(self):
