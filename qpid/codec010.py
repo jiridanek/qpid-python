@@ -22,6 +22,7 @@ import datetime
 from .packer import Packer
 from .datatypes import serial, timestamp, RangedSet, Struct, UUID
 from .ops import Compound, PRIMITIVE, COMPOUND
+from qpid.py3compat import PY3
 
 try:
   buffer
