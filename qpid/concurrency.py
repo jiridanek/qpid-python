@@ -20,9 +20,18 @@
 from __future__ import absolute_import
 import inspect, time
 from . import compat
+from . import py3compat
 
+# TODO this is probably broken
 def synchronized(meth):
-  args, vargs, kwargs, defs = inspect.getargspec(meth)
+  if hasattr(inspect, 'getargspec'):
+    args, vargs, kwargs, defs = inspect.getargspec(meth)
+  else:
+    spec = inspect.getfullargspec(meth)
+    args = spec.args
+    vargs = spec.varargs
+    kwargs = spec.varkw
+    defs = spec.defaults
   scope = {}
   scope["meth"] = meth
   exec("""
@@ -33,9 +42,9 @@ def %s%s:
     return meth%s
   finally:
     %s._lock.release()
-""" % (meth.__name__, inspect.formatargspec(args, vargs, kwargs, defs),
+""" % (meth.__name__, py3compat.formatargspec(args, vargs, kwargs, defs),
        repr(inspect.getdoc(meth)), args[0],
-       inspect.formatargspec(args, vargs, kwargs, defs,
+       py3compat.formatargspec(args, vargs, kwargs, defs,
                              formatvalue=lambda x: ""),
        args[0]), scope)
   return scope[meth.__name__]
