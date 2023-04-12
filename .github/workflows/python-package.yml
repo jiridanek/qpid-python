@@ -181,31 +181,20 @@ jobs:
           ${{ env.pythonLocation }}/bin/python qpid-python-test \
             -m qpid_tests.broker_0_10 \
             --broker amqp://guest/guest@localhost:5672 \
-            -i qpid_tests.broker_0_10.stats.BrokerStatsTests.test_message_release \
-            -i qpid_tests.broker_0_10.stats.BrokerStatsTests.test_reroutes \
-            -i qpid_tests.broker_0_10.stats.BrokerStatsTests.test_transactional_enqueues_dequeues \
             -i qpid_tests.broker_0_10.dtx.DtxTests.test_forget_xid_on_completion \
             -i qpid_tests.broker_0_10.dtx.DtxTests.test_get_timeout \
             -i qpid_tests.broker_0_10.dtx.DtxTests.test_implicit_end \
             -i qpid_tests.broker_0_10.dtx.DtxTests.test_set_timeout_too_high \
             -i qpid_tests.broker_0_10.dtx.DtxTests.test_simple_commit \
+            -i qpid_tests.broker_0_10.dtx.DtxTests.test_simple_prepare_commit \
             -i qpid_tests.broker_0_10.dtx.DtxTests.test_simple_prepare_rollback \
             -i qpid_tests.broker_0_10.dtx.DtxTests.test_simple_rollback \
-            -i qpid_tests.broker_0_10.qmf_events.EventTests.test_queue_autodelete_exclusive \
-            -i qpid_tests.broker_0_10.qmf_events.EventTests.test_queue_autodelete_shared \
-            -i qpid_tests.broker_0_10.qmf_events.EventTests.test_queue_declare \
-            -i qpid_tests.broker_0_10.qmf_events.EventTests.test_queue_delete \
+            -i qpid_tests.broker_0_10.exchange.AutodeleteTests.testAutodeleteFanout \
+            -i qpid_tests.broker_0_10.exchange.AutodeleteTests.testAutodeleteHeaders \
             -i qpid_tests.broker_0_10.extensions.ExtensionTests.test_policy_negative_count \
             -i qpid_tests.broker_0_10.extensions.ExtensionTests.test_policy_negative_size \
             -i qpid_tests.broker_0_10.extensions.ExtensionTests.test_policy_size_as_float \
             -i qpid_tests.broker_0_10.extensions.ExtensionTests.test_timed_autodelete \
-            -i qpid_tests.broker_0_10.new_api.GeneralTests.test_ambiguous_create_1 \
-            -i qpid_tests.broker_0_10.new_api.GeneralTests.test_ambiguous_create_2 \
-            -i qpid_tests.broker_0_10.new_api.GeneralTests.test_ambiguous_delete_1 \
-            -i qpid_tests.broker_0_10.new_api.GeneralTests.test_ambiguous_delete_2 \
-            -i qpid_tests.broker_0_10.new_api.GeneralTests.test_node_disambiguation_1 \
-            -i qpid_tests.broker_0_10.new_api.GeneralTests.test_node_disambiguation_2 \
-            -i qpid_tests.broker_0_10.new_api.GeneralTests.test_qpid_3481_acquired_to_alt_exchange_2_consumers \
             -i qpid_tests.broker_0_10.management.ManagementTest.test_binding_count_on_queue \
             -i qpid_tests.broker_0_10.management.ManagementTest.test_broker_connectivity_oldAPI \
             -i qpid_tests.broker_0_10.management.ManagementTest.test_connection_close \
@@ -234,20 +223,45 @@ jobs:
             -i qpid_tests.broker_0_10.msg_groups.MultiConsumerMsgGroupTests.test_default_group_id \
             -i qpid_tests.broker_0_10.msg_groups.MultiConsumerMsgGroupTests.test_move_all \
             -i qpid_tests.broker_0_10.msg_groups.MultiConsumerMsgGroupTests.test_move_count \
+            -i qpid_tests.broker_0_10.msg_groups.MultiConsumerMsgGroupTests.test_purge_acquired \
             -i qpid_tests.broker_0_10.msg_groups.MultiConsumerMsgGroupTests.test_purge_count \
             -i qpid_tests.broker_0_10.msg_groups.MultiConsumerMsgGroupTests.test_purge_free \
             -i qpid_tests.broker_0_10.msg_groups.MultiConsumerMsgGroupTests.test_query \
             -i qpid_tests.broker_0_10.msg_groups.MultiConsumerMsgGroupTests.test_reroute \
+            -i qpid_tests.broker_0_10.new_api.GeneralTests.test_ambiguous_create_1 \
+            -i qpid_tests.broker_0_10.new_api.GeneralTests.test_ambiguous_create_2 \
+            -i qpid_tests.broker_0_10.new_api.GeneralTests.test_ambiguous_delete_1 \
+            -i qpid_tests.broker_0_10.new_api.GeneralTests.test_ambiguous_delete_2 \
+            -i qpid_tests.broker_0_10.new_api.GeneralTests.test_node_disambiguation_1 \
+            -i qpid_tests.broker_0_10.new_api.GeneralTests.test_node_disambiguation_2 \
+            -i qpid_tests.broker_0_10.new_api.GeneralTests.test_qpid_3481_acquired_to_alt_exchange_2_consumers \
+            -i qpid_tests.broker_0_10.new_api.SequenceNumberTests.test_create_sequence_queue \
+            -i qpid_tests.broker_0_10.new_api.SequenceNumberTests.test_get_sequence_number \
+            -i qpid_tests.broker_0_10.new_api.SequenceNumberTests.test_sequence_number_gap \
             -i qpid_tests.broker_0_10.priority.PriorityTests.test_fairshare_1 \
             -i qpid_tests.broker_0_10.priority.PriorityTests.test_fairshare_2 \
             -i qpid_tests.broker_0_10.priority.PriorityTests.test_fairshare_3 \
             -i qpid_tests.broker_0_10.priority.PriorityTests.test_fairshare_with_alias \
             -i qpid_tests.broker_0_10.priority.PriorityTests.test_prioritised_delivery_with_alias \
+            -i qpid_tests.broker_0_10.qmf_events.EventTests.test_queue_autodelete_exclusive \
+            -i qpid_tests.broker_0_10.qmf_events.EventTests.test_queue_autodelete_shared \
+            -i qpid_tests.broker_0_10.qmf_events.EventTests.test_queue_declare \
+            -i qpid_tests.broker_0_10.qmf_events.EventTests.test_queue_delete \
             -i qpid_tests.broker_0_10.queue.QueueTests.test_declare_exclusive \
             -i qpid_tests.broker_0_10.queue.QueueTests.test_declare_exclusive_alreadyinuse \
-            -i qpid_tests.broker_0_10.new_api.SequenceNumberTests.test_create_sequence_queue \
-            -i qpid_tests.broker_0_10.new_api.SequenceNumberTests.test_get_sequence_number \
-            -i qpid_tests.broker_0_10.new_api.SequenceNumberTests.test_sequence_number_gap \
+            -i qpid_tests.broker_0_10.stats.BrokerStatsTests.test_abandoned_alt \
+            -i qpid_tests.broker_0_10.stats.BrokerStatsTests.test_discards_limit_overflow \
+            -i qpid_tests.broker_0_10.stats.BrokerStatsTests.test_discards_lvq_replace \
+            -i qpid_tests.broker_0_10.stats.BrokerStatsTests.test_discards_no_route \
+            -i qpid_tests.broker_0_10.stats.BrokerStatsTests.test_discards_purge \
+            -i qpid_tests.broker_0_10.stats.BrokerStatsTests.test_discards_reject \
+            -i qpid_tests.broker_0_10.stats.BrokerStatsTests.test_discards_ring_overflow \
+            -i qpid_tests.broker_0_10.stats.BrokerStatsTests.test_discards_ttl \
+            -i qpid_tests.broker_0_10.stats.BrokerStatsTests.test_enqueues_dequeues \
+            -i qpid_tests.broker_0_10.stats.BrokerStatsTests.test_exchange_stats \
+            -i qpid_tests.broker_0_10.stats.BrokerStatsTests.test_message_release \
+            -i qpid_tests.broker_0_10.stats.BrokerStatsTests.test_reroutes \
+            -i qpid_tests.broker_0_10.stats.BrokerStatsTests.test_transactional_enqueues_dequeues \
             -i qpid_tests.broker_0_10.threshold.ThresholdTests.test_alert_count \
             -i qpid_tests.broker_0_10.threshold.ThresholdTests.test_alert_count_alias \
             -i qpid_tests.broker_0_10.threshold.ThresholdTests.test_alert_on_alert_queue \
