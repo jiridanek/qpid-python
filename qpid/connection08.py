@@ -304,29 +304,48 @@ class Connection:
   def close(self):
     self.io.close()
 
+# taken from the six library (MIT license)
+def _add_metaclass(metaclass):
+  """Class decorator for creating a class with a metaclass."""
+  def wrapper(cls):
+    orig_vars = cls.__dict__.copy()
+    slots = orig_vars.get('__slots__')
+    if slots is not None:
+      if isinstance(slots, str):
+        slots = [slots]
+      for slots_var in slots:
+        orig_vars.pop(slots_var)
+    orig_vars.pop('__dict__', None)
+    orig_vars.pop('__weakref__', None)
+    if hasattr(cls, '__qualname__'):
+      orig_vars['__qualname__'] = cls.__qualname__
+    return metaclass(cls.__name__, cls.__bases__, orig_vars)
+  return wrapper
 
+
+class FrameMeta(type):
+
+  def __new__(cls, name, bases, dict):
+    for attr in ("encode", "decode", "type"):
+      if attr not in dict:
+        raise TypeError("%s must define %s" % (name, attr))
+    dict["decode"] = staticmethod(dict["decode"])
+    if "__init__" in dict:
+      __init__ = dict["__init__"]
+      def init(self, *args, **kwargs):
+        args = list(args)
+        self.init(args, kwargs)
+        __init__(self, *args, **kwargs)
+      dict["__init__"] = init
+    t = type.__new__(cls, name, bases, dict)
+    if t.type != None:
+      Frame.DECODERS[t.type] = t
+    return t
+
+@_add_metaclass(FrameMeta)
 class Frame:
 
   DECODERS = {}
-
-  class __metaclass__(type):
-
-    def __new__(cls, name, bases, dict):
-      for attr in ("encode", "decode", "type"):
-        if attr not in dict:
-          raise TypeError("%s must define %s" % (name, attr))
-      dict["decode"] = staticmethod(dict["decode"])
-      if "__init__" in dict:
-        __init__ = dict["__init__"]
-        def init(self, *args, **kwargs):
-          args = list(args)
-          self.init(args, kwargs)
-          __init__(self, *args, **kwargs)
-        dict["__init__"] = init
-      t = type.__new__(cls, name, bases, dict)
-      if t.type != None:
-        Frame.DECODERS[t.type] = t
-      return t
 
   type = None
 
