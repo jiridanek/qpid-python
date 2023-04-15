@@ -37,12 +37,11 @@ except ImportError:
 from time import time
 from .exceptions import Closed, Timeout, ContentError
 from logging import getLogger
-from qpid.py3compat import buffer, unicode
 
 try:
-  basestring
+  buffer
 except NameError:
-  basestring = str
+  buffer = memoryview
 
 log = getLogger("qpid.peer")
 
@@ -276,8 +275,7 @@ class Channel:
     for child in content.children:
       self.write_content(klass, child)
     if content.body:
-      # todo: do we allow py3 str in here? original code says yes
-      if not isinstance(content.body, (bytes, str, unicode, buffer)):
+      if not isinstance(content.body, (bytes, buffer)):
         # The 0-8..0-91 client does not support the messages bodies apart from string/buffer - fail early
         # if other type
         raise ContentError("Content body must be bytes or buffer, not a %s" % type(content.body))
