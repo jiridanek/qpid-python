@@ -110,7 +110,7 @@ class TestHelper(TestBase010):
     def uniqueString(self):
         """Generate a unique string, unique for this TestBase instance"""
         if not "uniqueCounter" in dir(self): self.uniqueCounter = 1;
-        return "Test Message " + str(self.uniqueCounter)
+        return b"Test Message " + str(self.uniqueCounter).encode()
 
     def consume(self, queueName):
         """Consume from named queue returns the Queue object."""
